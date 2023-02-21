@@ -10,6 +10,7 @@ function SearchHeader() {
     const router = useRouter();
     const searchInputRef = useRef(null);
     const search = (e) => {
+        console.log("sad");
         e.preventDefault();
         const term = searchInputRef.current.value;
         if (!term.trim()) return;
@@ -28,7 +29,7 @@ function SearchHeader() {
                         src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2f/Google_2015_logo.svg/800px-Google_2015_logo.svg.png"
                         onClick={() => router.push("/")}
                     />
-                    <from className="flex border border-gray-200 rounded-full items-center  shadow-lg px-6 py-3 ml-10 mr-5 flex-grow max-w-3xl">
+                    <form className="flex border border-gray-200 rounded-full items-center  shadow-lg px-6 py-3 ml-10 mr-5 flex-grow max-w-3xl">
                         <input
                             type="text"
                             className="w-full focus:outline-none "
@@ -42,7 +43,7 @@ function SearchHeader() {
                         <MicrophoneIcon className="h-6 hidden sm:inline-flex text-blue-500 pl-4 border-l-2 border-gray-300 mr-3 " />
                         <SearchIcon className="h-6 hidden sm:inline-flex text-blue-500" />
                         <button type="submit" hidden onClick={search}></button>
-                    </from>
+                    </form>
                     <User className="ml-auto whitespace-nowrap" />
                 </div>
                 <SearchHeaderOptions />

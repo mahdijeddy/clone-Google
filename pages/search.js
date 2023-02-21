@@ -1,3 +1,4 @@
+import ImageResults from "@/components/ImageResults";
 import SearchHeader from "@/components/SearchHeader";
 import SearchResults from "@/components/SearchResults";
 import Response from "@/Response";
@@ -5,7 +6,7 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import React from "react";
 
-function search({ results }) {
+function Search({ results }) {
     console.log(results);
     const router = useRouter();
     return (
@@ -16,19 +17,26 @@ function search({ results }) {
 
             <SearchHeader />
             {/* searchResults */}
-            <SearchResults results={results} />
+            {router.query.searchType === "image" ? (
+                <ImageResults results={results} />
+            ) : (
+                <SearchResults results={results} />
+            )}
         </>
     );
 }
 
 export async function getServerSideProps(context) {
-    const mockData = true;
+    const startIndex = context.query.start || "1";
+    const mockData = false;
     const data = mockData
         ? Response
         : await fetch(
               `https://www.googleapis.com/customsearch/v1?key=${process.env.API_KEY}&cx=${
                   process.env.CONTEXT_KEY
-              }&q=${context.query.term}${context.query.searchTYpe && "&searchType=image"}`
+              }&q=${context.query.term}${
+                  context.query.searchType && "&searchType=image"
+              }&start=${startIndex}`
           ).then((res) => res.json());
     return {
         props: {
@@ -37,4 +45,4 @@ export async function getServerSideProps(context) {
     };
 }
 
-export default search;
+export default Search;
